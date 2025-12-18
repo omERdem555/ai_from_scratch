@@ -1,5 +1,5 @@
-﻿using TwoInputNeuron;
-using static System.Net.Mime.MediaTypeNames;
+﻿using static System.Net.Mime.MediaTypeNames;
+using TwoInputNeuron;
 internal class Program
 {
     private static void Main(string[] args)
