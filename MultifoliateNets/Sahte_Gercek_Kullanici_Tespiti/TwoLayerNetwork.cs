@@ -6,14 +6,21 @@
     /// </summary>
     public class IkiKatmanliSinirAgi
     {
+
+
         // === GİZLİ KATMAN ===
         // [gizliNöronIndex, girişIndex]
         public double[,] GizliAgirliklar = new double[2, 2];
         public double[] GizliBias = new double[2];
 
+
+
         // === ÇIKIŞ KATMANI ===
         public double[] CikisAgirliklari = new double[2];
         public double CikisBias;
+
+
+
 
         public IkiKatmanliSinirAgi()
         {
@@ -30,12 +37,16 @@
                     rastgele.NextDouble() - 0.5;
         }
 
+
+
         /// <summary>
         /// Verilen giriş için ağın tahminini döndürür
         /// </summary>
         public double TahminEt(double[] giris)
         {
             double[] gizliCikis = new double[2];
+
+
 
             // Gizli katman
             for (int i = 0; i < 2; i++)
@@ -47,6 +58,8 @@
 
                 gizliCikis[i] = Sigmoid(toplam);
             }
+
+
 
             // Çıkış katmanı
             double cikisToplam = CikisBias;

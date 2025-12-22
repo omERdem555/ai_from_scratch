@@ -9,12 +9,12 @@ internal class Program
         //Örnek veri seti (2D) - Çalışma süresi ve devamsızlık oranı
         double[,] xs =
 {
-    { 1, 0.9 },
-    { 2, 0.8 },
-    { 4, 0.2 },
-    { 5, 0.1 },
-    { 3, 0.7 },
-    { 4, 0.4 }
+    { 1, 0.9 }, //Geçememiş
+    { 2, 0.8 }, //Geçememiş
+    { 4, 0.2 }, //Geçmiş
+    { 5, 0.1 }, //Geçmiş
+    { 3, 0.7 }, //Geçememiş
+    { 4, 0.4 }  //Geçmiş
 };
 
         double[] ys = { 0, 0, 1, 1, 0, 1 }; //Hedef etiketler (0: başarısız, 1: başarılı)
@@ -69,5 +69,4 @@ internal class Program
         model.W2 -= learningRate * error * x2;
         model.B -= learningRate * error;
     }
-
 }

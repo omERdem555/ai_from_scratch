@@ -31,11 +31,21 @@ internal class Program
             0, 0, 0, 0
         };
 
+
+
+
+
+
         // İki katmanlı sinir ağı oluşturuluyor
         var ag = new IkiKatmanliSinirAgi();
 
-        int epochSayisi = 5000;
+        int epochSayisi = 100000;
         double ogrenmeOrani = 0.1;
+
+
+
+
+
 
         // Eğitim döngüsü
         for (int epoch = 0; epoch < epochSayisi; epoch++)
@@ -45,6 +55,11 @@ internal class Program
                 Egit(ag, girisVerileri[i], etiketler[i], ogrenmeOrani);
             }
         }
+
+
+
+
+
 
         // Test sonuçları
         Console.WriteLine("TEST SONUÇLARI");
@@ -56,7 +71,7 @@ internal class Program
 
             Console.WriteLine(
                 $"Giriş: ({girisVerileri[i][0]}, {girisVerileri[i][1]}) " +
-                $"→ Tahmin: {tahmin:F3} | Gerçek: {etiketler[i]}"
+                $"-> Tahmin: {tahmin:F5} | Gerçek: {etiketler[i]}"
             );
         }
     }
@@ -65,12 +80,14 @@ internal class Program
     /// Tek örnek üzerinden eğitim yapar
     /// (Binary Cross Entropy + Backpropagation)
     /// </summary>
-    static void Egit(IkiKatmanliSinirAgi ag,double[] giris, double hedef, double ogrenmeOrani)
+    static void Egit(IkiKatmanliSinirAgi ag, double[] giris, double hedef, double ogrenmeOrani)
     {
         // === FORWARD PASS ===
 
         double[] gizliKatmanCikisi = new double[2];
         double[] gizliKatmanToplam = new double[2];
+
+
 
         // Gizli katman hesaplaması
         for (int i = 0; i < 2; i++)
@@ -84,18 +101,25 @@ internal class Program
                 1.0 / (1.0 + Math.Exp(-gizliKatmanToplam[i]));
         }
 
+
+
         // Çıkış nöronu
         double cikisToplam = ag.CikisBias;
         for (int i = 0; i < 2; i++)
             cikisToplam += ag.CikisAgirliklari[i] * gizliKatmanCikisi[i];
 
-        double tahmin =
-            1.0 / (1.0 + Math.Exp(-cikisToplam));
+        double tahmin = 1.0 / (1.0 + Math.Exp(-cikisToplam));
+
+
+
+
+
 
         // === BACKPROPAGATION ===
 
         // Çıkış katmanı hatası
         double cikisHatasi = tahmin - hedef;
+
 
         // Çıkış katmanı ağırlıkları güncelleme
         for (int i = 0; i < 2; i++)
@@ -104,18 +128,14 @@ internal class Program
 
         ag.CikisBias -= ogrenmeOrani * cikisHatasi;
 
+
         // Gizli katman güncellemesi
         for (int i = 0; i < 2; i++)
         {
-            double gizliHata =
-                cikisHatasi *
-                ag.CikisAgirliklari[i] *
-                gizliKatmanCikisi[i] *
-                (1 - gizliKatmanCikisi[i]);
+            double gizliHata = cikisHatasi * ag.CikisAgirliklari[i] * gizliKatmanCikisi[i] * (1 - gizliKatmanCikisi[i]);
 
             for (int j = 0; j < 2; j++)
-                ag.GizliAgirliklar[i, j] -=
-                    ogrenmeOrani * gizliHata * giris[j];
+                ag.GizliAgirliklar[i, j] -= ogrenmeOrani * gizliHata * giris[j];
 
             ag.GizliBias[i] -= ogrenmeOrani * gizliHata;
         }
